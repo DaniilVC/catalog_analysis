@@ -101,7 +101,7 @@ def duration_in_hours(minutes):
     return f"{_hour}ч {_minute}м"
 
 def rating_tier(raiting):
-    
+    pass
 
 # вывод
 def build_report(movies):
