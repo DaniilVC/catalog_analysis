@@ -1,3 +1,5 @@
+import math as m
+
 movies = [
     {
         "title": "The Dune Chronicles",
@@ -83,12 +85,27 @@ movies = [
 
 
 def average_rating(movies):
-    pass
+    _n = round(sum(movie["rating"] for movie in movies) / len(movies), 1)
+    return _n
 
 
 def catalog_age_stats(movies, current_year=2026):
-    pass
-
+    _average = m.ceil(sum((current_year - movie["year"]) for movie in movies) / len(movies))
+    _new = max((current_year - movie["year"]) for movie in movies)
+    _old = min((current_year - movie["year"]) for movie in movies)
+    return tuple([_old, _new, _average])    
 
 def duration_in_hours(minutes):
-    pass
+    _hour = minutes // 60
+    _minute = minutes % 60
+    return f"{_hour}ч {_minute}м"
+
+def rating_tier(raiting):
+    
+
+# вывод
+def build_report(movies):
+    print("Средний рейтинг: ", average_rating(movies))
+    print("Средний возраст фильмов: ", catalog_age_stats(movies)[2]," лет")
+
+build_report(movies)
