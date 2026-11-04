@@ -171,7 +171,12 @@ def make_slug(title):
 
 
 def format_report_line(movie):
-    return f"{normalize_title(movie["title"])} - {movie["rating"]}/10, {duration_in_hours(movie["duration_min"])}, жанры: {mov["genre"] for mov in movie}"
+    _sorted_genres = ", ".join(sorted(movie["genres"]))
+    return (
+        f'"{normalize_title(movie['title'])}" ({movie["year"]}) - {movie['rating']}/10, '
+        f'{duration_in_hours(movie['duration_min'])}, '
+        f'жанры: {_sorted_genres}'
+    )
 
 
 # вывод
@@ -181,7 +186,7 @@ def build_report(movies):
 
 
 # build_report(movies)
-print(format_report_line(movies))
+print(format_report_line(movies[7]))
 """
 genre(movies)
 high_rating(movies)
