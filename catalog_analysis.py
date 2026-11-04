@@ -90,22 +90,71 @@ def average_rating(movies):
 
 
 def catalog_age_stats(movies, current_year=2026):
-    _average = m.ceil(sum((current_year - movie["year"]) for movie in movies) / len(movies))
+    _average = m.ceil(
+        sum((current_year - movie["year"]) for movie in movies) / len(movies)
+    )
     _new = max((current_year - movie["year"]) for movie in movies)
     _old = min((current_year - movie["year"]) for movie in movies)
-    return tuple([_old, _new, _average])    
+    return tuple([_old, _new, _average])
+
 
 def duration_in_hours(minutes):
     _hour = minutes // 60
     _minute = minutes % 60
     return f"{_hour}ч {_minute}м"
 
-def rating_tier(raiting):
-    pass
+
+def rating_tier(rating):
+    if rating >= 9:
+        return "шедевр"
+    elif 7 >= rating >= 8.9:
+        return "хорошо"
+    else:
+        return "средне" if 5 >= rating >= 6.9 else "слабо"
+
+
+def decade_label(year):
+    match year:
+        case _ if year > 2020:
+            return "новые"
+        case _ if 2015 > year > 2020:
+            return "недавние"
+        case _ if year > 2015:
+            return "старые"
+
+def genre(movies):
+    for _movie in movies:
+        if "comedy" in _movie["genres"]:
+            continue
+        print(_movie["title"])
+
+def high_rating(movies):
+    _n = 0 
+    while _n < len(movies):
+        _movie = movies[_n]
+        if _movie["rating"] > 9.0:
+            print(f"Шедевр: {_movie["title"]}, оценка: {_movie["rating"]}")
+            break
+        _n+=1
+    else:
+        print("Шедевров не найдено")
+
+def count_long_movies(movies, threshold=120):
+    _n = 0
+    for _movie in movies:
+        _n += 1 if _movie["duration_min"] > threshold else 0
+    return _n
 
 # вывод
 def build_report(movies):
     print("Средний рейтинг: ", average_rating(movies))
-    print("Средний возраст фильмов: ", catalog_age_stats(movies)[2]," лет")
+    print("Средний возраст фильмов: ", catalog_age_stats(movies)[2], " лет")
 
-build_report(movies)
+
+#build_report(movies)
+print(count_long_movies(movies))
+
+'''
+genre(movies)
+high_rating(movies)
+'''
