@@ -181,6 +181,20 @@ def format_report_line(movie):
     )
 
 
+def titles_sorted_by_rating(movies):
+    _n = sorted(movies, key=lambda movie: movie["rating"], reverse=True)
+    _list = [movie["title"] for movie in _n]
+
+    return _list
+
+
+def top_n_by_rating(movies, n=3):
+    _k = sorted(movies, key=lambda movie: movie["rating"], reverse=True)
+    _top_n = _k[:n]
+
+    return [(movies["title"], movies["rating"]) for movies in _top_n]
+
+
 # вывод
 def build_report(movies):
     print("Средний рейтинг: ", average_rating(movies))
@@ -188,7 +202,7 @@ def build_report(movies):
 
 
 # build_report(movies)
-print(format_report_line(movies[7]))
+print(top_n_by_rating(movies))
 """
 genre(movies)
 high_rating(movies)
