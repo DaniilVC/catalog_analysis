@@ -106,6 +106,11 @@ def duration_in_hours(minutes):
     return f"{_hour}ч {_minute}м"
 
 
+"""
+2 этап
+"""
+
+
 def rating_tier(rating):
     if rating >= 9:
         return "шедевр"
@@ -123,6 +128,11 @@ def decade_label(year):
             return "недавние"
         case _ if year > 2015:
             return "старые"
+
+
+"""
+3 этап
+"""
 
 
 def genre(movies):
@@ -149,6 +159,11 @@ def count_long_movies(movies, threshold=120):
     for _movie in movies:
         _n += 1 if _movie["duration_min"] > threshold else 0
     return _n
+
+
+"""
+4 этап
+"""
 
 
 def normalize_title(title):
@@ -181,6 +196,11 @@ def format_report_line(movie):
     )
 
 
+"""
+5 этап
+"""
+
+
 def titles_sorted_by_rating(movies):
     _n = sorted(movies, key=lambda movie: movie["rating"], reverse=True)
     _list = [movie["title"] for movie in _n]
@@ -193,6 +213,11 @@ def top_n_by_rating(movies, n=3):
     _top_n = _k[:n]
 
     return [(movies["title"], movies["rating"]) for movies in _top_n]
+
+
+"""
+6 этап
+"""
 
 
 def count_by_genre(movies):
@@ -222,6 +247,10 @@ average = {
     if movie["rating"] > average_rating(movies)
 }
 
+"""
+7 этап
+"""
+
 
 def all_genres(movies):
     _genres = set()
@@ -244,16 +273,37 @@ def genres_only_in_one(movies_a, movies_b):
     return _genres_a - _genres_b
 
 
-# вывод
+"""
+8 этап
+"""
+
+
+def iter_high_rated(movies, min_rating=8.0):
+    for movie in movies:
+        if movie["rating"] >= min_rating:
+            yield movie
+
+
+def top_films(movies):
+    for movie in iter_high_rated(movies):
+        print(format_report_line(movie))
+
+
+# print(sum(m["duration_min"] for m in movies if m["rating"] > 7))
+
+
+"""
+вывод / 9 этап
+"""
+
+
 def build_report(movies):
+    print("ОТЧЁТ ПО КАТАЛОГУ")
     print("Средний рейтинг: ", average_rating(movies))
-    print("Средний возраст фильмов: ", catalog_age_stats(movies)[2], " лет")
+    print("Средний возраст фильмов: ", catalog_age_stats(movies)[2], " лет\n")
+    print("Топ-3 фильма:\n", top_films(movies), "\n")
+    print("Фильмов по жанрам:\n", count_by_genre(movies), "\n")
+    print("Все жанры каталога:\n", all_genres(movies), "\n")
 
 
-# build_report(movies)
-##print(actor_filmography(movies))
-
-"""
-genre(movies)
-high_rating(movies)
-"""
+build_report(movies)
