@@ -195,6 +195,55 @@ def top_n_by_rating(movies, n=3):
     return [(movies["title"], movies["rating"]) for movies in _top_n]
 
 
+def count_by_genre(movies):
+    _genre_count = {}
+    for data in movies:
+        for genre in data.get("genres", []):
+            _genre_count[genre] = _genre_count.get(genre, 0) + 1
+
+    return _genre_count
+
+
+def actor_filmography(movies):
+    _actor_films = {}
+    for data in movies:
+        title = data.get("title", "")
+        for actor in data.get("actors", []):
+            if actor not in _actor_films:
+                _actor_films[actor] = []
+            _actor_films[actor].append(title)
+
+    return _actor_films
+
+
+average = {
+    movie["title"]: movie["rating"]
+    for movie in movies
+    if movie["rating"] > average_rating(movies)
+}
+
+
+def all_genres(movies):
+    _genres = set()
+    for movie in movies:
+        _genres.update(movie.get("genres", set()))
+    return _genres
+
+
+def common_actors(movie1, movie2):
+    _actors1 = set(movie1.get("actors", []))
+    _actors2 = set(movie2.get("actors", []))
+
+    return _actors1 & _actors2
+
+
+def genres_only_in_one(movies_a, movies_b):
+    _genres_a = all_genres(movies_a)
+    _genres_b = all_genres(movies_b)
+
+    return _genres_a - _genres_b
+
+
 # вывод
 def build_report(movies):
     print("Средний рейтинг: ", average_rating(movies))
@@ -202,7 +251,8 @@ def build_report(movies):
 
 
 # build_report(movies)
-print(top_n_by_rating(movies))
+##print(actor_filmography(movies))
+
 """
 genre(movies)
 high_rating(movies)
