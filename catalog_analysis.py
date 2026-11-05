@@ -305,5 +305,5 @@ def build_report(movies):
     print("Фильмов по жанрам:\n", count_by_genre(movies), "\n")
     print("Все жанры каталога:\n", all_genres(movies), "\n")
 
-
-build_report(movies)
+if __name__ == "__main__":
+    build_report(movies)
